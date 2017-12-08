@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link type="text/css" rel="stylesheet" href="style.css"/>
+    <style type="text/css">
+
+.node {
+  cursor: pointer;
+}
+
+/*.node circle {
+  fill: #fff;
+  stroke: black;
+  stroke-width: .5px;
+}*/
+
+.node text {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+</style>
+</head>
+  <body>
+    <h2>
+      Monte Carlo Tree Graph<br>
+      Wildfire State Space
+    </h2>
+	<span id='htmlText'><p></p>--</span>
+	<div id="option">
+		<input name="updateButton" type="button" value="Update" onclick="addNode()" />
+		<input name="saveTreeButton" type="button" value="Save Tree" onclick="saveSVG('mctg')" />
+		<input name="saveGridButton" type="button" value="Save Grid" onclick="saveSVG('firegraph')" />
+	</div>
+	
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
+	<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/js/bootstrap.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+	<script src="http://d3export.cancan.cshl.edu/vkbeautify.0.99.00.beta.js"></script>
+	<script src="https://raw.github.com/d3/d3-plugins/master/geom/contour/contour.js"></script>
+	
+	<div class="mctg" style="float:left" id="mctg"></div>
+	<div class="firegraph" style="float:left" id="firegraph"></div>
+	
+	<pre class="svg code" style="float:left" id="svg_code"></pre>
+	
+	<form id="svgform" method="post" action="http://d3export.cancan.cshl.edu/download.pl">
+		<input type="hidden" id="output_format" name="output_format" value="">
+		<input type="hidden" id="data" name="data" value="">
+	</form>
+	
+<script type="text/javascript">
+
+var margin = {top: 20, right: 120, bottom: 20, left: 120},
+    width = 1900,// - margin.right - margin.left,
+    height = 1000;// - margin.top - margin.bottom;
+    
+var i = 0,
+    duration = 500,
+	timer = duration,
+	iterations = 50,
+    root,
+	nodes,
+	links,
+	link,
+	spreadChild,
+	spreadParent,
+	parentDir,
+	c,
+	dim;
+	
+var colorScaleBlue = d3.scale.linear()
+					.domain([0, 10])
+					.range(["ivory", "steelblue"]);
+					
+var colorScaleRed = d3.scale.linear()
+					.domain([0, 10])
+					.range(["ivory", "firebrick"]);
+
+var tree = d3.layout.tree()
+    .size([width, height]);
+
+//Sets diagonal line between node and future children.
+var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; });
+
+//Sets svg element from <div> element in the html code (adds margins as necessary)	
+var svg = d3.select("#mctg").append("svg")
+    .attr("width", "100%")
+    .attr("height", "100%")
+	.attr("viewBox", "0 0 " + width + " " + height)
+  .append("g")
+    .attr("transform", "translate(" + width + "," + 20 + ") rotate(90)");
+
+d3.select("#mctg")
+	.style("width", "75%")
+	.style("height", "100%");
+	
+//svg.call(d3.behavior.zoom().on("zoom", redraw))
+
+function redraw() {
+	d3.select("g").attr("transform",
+		"rotate(90)"
+		+ " translate(" + d3.event.translate + ")"
+		+ " scale(" + d3.event.scale + ")");
+}
+
+//Grabs the parent/children parameters from the action JSON file to recreate the fire graph.
+function setDynamics() {
+	d3.json("testInputAction.json", function(error, flare) {
+		action = flare;
+
+		//
+		spreadChild = action.dynamics.spreadChild;
+		spreadParent = action.dynamics.spreadParent;
+		
+		//For direction: North = 0.0, East = 1.57, South = 3.14, West = 4.71
+		parentDir = action.dynamics.parentDir;
+		
+		c = action.parameters.c;
+		
+		dim = action.dynamics.stateDimension;
+		
+		/*var table = "";
+		for(var s=0;s<spreadChild.length;s++){
+			table += spreadChild[s] + "\t" + parentDir[s] + "\t" + spreadParent[s] + "</p>";
+		}			
+		
+		updateText(table);*/
+	});
+}
+
+setDynamics();
+
+//Set up the scatterplot for the fire-graph
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 500 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+	
+var svg2 = d3.select("#firegraph").append("svg")
+    .attr("width", "100%")
+    .attr("height", "100%")
+	.attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.top + margin.bottom))
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.select("#firegraph")
+	.style("width", "25%")
+	.style("height", "100%");
+	
+var x = d3.scale.linear()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var color2 = d3.scale.linear()
+					.domain([22, 1])
+					.range(["gold", "firebrick"]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var stateData;
+
+var dirMap = {
+	"3.141592653589793": [0, 1],
+	"0": [0, -1],
+	"1.5707963267948966": [-1, 0],
+	"4.71238898038469": [1, 0]};
+  
+function recreateState(d) {
+	stateData = [];
+	stateData.push({num: 1, xAx: 0, yAx: 0, fuel: d.state ? d.state.fuel[0] : d.parent.state.fuel[0], burning: d.state ? d.state.burning[0] : d.parent.state.burning[0]});
+	
+	for(var r=2;r<=dim;r++){
+		var childX;
+		var childY;
+		
+		for(var chi=0;chi<spreadChild.length;chi++){
+			if(spreadChild[chi] == r){
+				childX = stateData[spreadParent[chi]-1].xAx - dirMap[parentDir[chi]][0];
+				childY = stateData[spreadParent[chi]-1].yAx + dirMap[parentDir[chi]][1];
+				break;
+			}
+		}
+		
+		var fuel = -2;
+		
+		if(d.location){
+			var temp = d.parent.state.fuel.clone();
+			for(var loc=0;loc<d.location.length;loc++){
+				if(d.location[loc] == r){
+					console.log(d.location[loc] + " == " + r);
+					fuel = -1;
+				}
+				else if(d.location[loc] == 1) {
+					stateData[0] = {num: 1, xAx: 0, yAx: 0, fuel: -1, burning: d.state ? d.state.burning[0] : d.parent.state.burning[0]};
+				}
+			}	
+			if(fuel == -2)
+				fuel = d.parent.state.fuel[r-1];
+		}
+		else
+			fuel = d.state.fuel[r-1];
+		
+		
+		
+		stateData.push({num: r, xAx: childX, yAx: childY, fuel: fuel, burning: d.location ? d.parent.state.burning[r-1] : d.state.burning[r-1]});
+	}
+}
+
+Object.prototype.clone = function() {
+  var newObj = (this instanceof Array) ? [] : {};
+  for (i in this) {
+    if (i == 'clone') continue;
+    if (this[i] && typeof this[i] == "object") {
+      newObj[i] = this[i].clone();
+    } else newObj[i] = this[i]
+  } return newObj;
+};
+	
+function updateGraph() {
+	x.domain(d3.extent(stateData, function(d) { return d.xAx; })).nice();
+	y.domain(d3.extent(stateData, function(d) { return d.yAx; })).nice();
+
+	/*svg2.append("g")
+		.attr("class", "x axis")
+		.attr("transform", "translate(0," + height + ")")
+		.call(xAxis);
+	  /*.append("text")
+		.attr("class", "label")
+		.attr("x", width)
+		.attr("y", -6)
+		.style("text-anchor", "end")
+		.text("Sepal Width (cm)");*/
+
+	/*svg2.append("g")
+		.attr("class", "y axis")
+		.call(yAxis);
+	  /*.append("text")
+		.attr("class", "label")
+		.attr("transform", "rotate(-90)")
+		.attr("y", 6)
+		.attr("dy", ".71em")
+		.style("text-anchor", "end")
+		.text("Sepal Length (cm)");*/
+
+	var cellSize = 25;
+	
+	svg2.selectAll(".dot")
+		.data(stateData)
+	  .enter().append("rect")
+		.attr("class", "dot")
+		.attr("x", function(d) { return width/2 + d.xAx*cellSize; })
+		.attr("y", function(d) { return height/2 + d.yAx*cellSize; })
+		.attr("width", cellSize)
+		.attr("height", cellSize)
+		.style("stroke", "#000")
+		.attr("title", function(d) {return d.fuel; })
+		.style("fill", function(d) { return d.fuel == -1 ? "dodgerblue" : d.fuel == 0 ? "dimgrey" : d.burning == 0 && d.fuel == 22 ? "ivory" : color2(d.fuel); });
+
+	svg2.selectAll(".dot").transition()	
+		.style("fill", function(d) { return d.fuel == -1 ? "dodgerblue" : d.fuel == 0 ? "dimgrey" : d.burning == 0 && d.fuel == 22 ? "ivory" : color2(d.fuel); });
+			
+	var legend = svg2.selectAll(".legend")
+		.data(color2.ticks(22))
+	  .enter().append("g")
+		.attr("class", "legend")
+		.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+	legend.append("rect")
+		.attr("x", width - 18)
+		.attr("width", 18)
+		.attr("height", 18)
+		.style("fill", color2);
+
+	legend.append("text")
+		.attr("x", width - 24)
+		.attr("y", 9)
+		.attr("dy", ".35em")
+		.style("text-anchor", "end")
+		.text(function(d) { return d; });
+};
+
+//Starting Monte Carlo iteration	
+var p = 200;
+
+//Inputs the iteration file associated with the p number.
+function animation() {
+	setTimeout(function () {
+	
+		animationStep(p);
+		
+		if(p+1 <= iterations){
+			p++;
+			animation();
+		}
+	}, timer)
+}
+
+animation();
+
+function animationStep(iteration) {
+	d3.json("output/parsedOutput" + iteration + ".json", function(error, flare) {
+			root = flare;
+
+			root.x0 = height / 2;
+			root.y0 = 0;
+			
+			update(root);
+	});
+}
+
+function keyStep() {
+	document.onkeypress = function(e) {
+		if(e.charCode == 32){
+			animationStep(p=1);
+		}
+		else if(e.keyCode == 37) { //<---left arrow
+			if(p-1 >= 1){
+				animationStep(--p);
+			}
+		}
+		else if(e.keyCode == 39) { //--->right arrow
+			animationStep(++p);
+		}
+		
+	}
+
+}
+
+keyStep();
+
+var prevNodesLen = 0;
+var nodesLength = 0;
+var nCount = 0;
+
+function update(source) {
+  // Compute the new tree layout.  
+  if(nodesLength != 0){
+	prevNodesLen = nodesLength;
+	nCount = prevNodesLen;
+  }
+  
+  var nodes = tree.nodes(root),
+      links = tree.links(nodes);
+
+  nodesLength = nodes.length;
+  
+  // Normalize for fixed-depth.
+//Upper Confidence Bound
+//  nodes.forEach(function(d) { d.parent && d.location ? d.y = d.parent.y + -7*(d.q + c*Math.sqrt(Math.log(d.parent.size)/d.size)) : d.y = d.depth * 120; });
+  nodes.forEach(function(d) { d.y = d.depth * 120; });
+  
+  // Update the nodes…
+  var node = svg.selectAll("g.node")
+      .data(nodes, function(d, i) {d.i = i; return d.id });
+	  
+  console.log(nodesLength + "|" + prevNodesLen);
+  
+  var numOfNew = nodesLength - prevNodesLen;
+  /*if(numOfNew > 1){
+	source = nodes[nodes.length-2];  
+  }*/
+  
+  
+  // Enter any new nodes at the parent's previous position.  
+ var nodeEnter = node.enter().append("g")
+	  .attr("class", "node")
+	  .attr("transform", function(d, i) {numOfNew == 2 ? mouseover(d.parent) : mouseover(d); return d.parent && source != root ? "translate(" + source.y0 + "," + source.x0 + ")" : d.parent ? "translate(" + d.parent.y + "," + d.parent.x + ")" : "translate(" + d.y + "," + d.x + ")"; })
+	  .style("fill", "white")
+	  .on("click", click)
+	  .on("mouseover", mouseover);  
+  
+  nodeEnter.append("path")
+	  .attr("d", d3.svg.symbol()
+		.size(function(d) { return 0; })
+		.type(function(d) { return d.location ? "square" : "circle";}))
+	//.attr("title", getToolTip)
+	  .style("stroke", "black")
+	  .style("stroke-width", .5);
+  
+  // Transition nodes to their new position.
+  var nodeUpdate = node.transition()
+	  .duration(duration)
+	  .attr("title", function(d,i) { return i+1 +"/"+nodes.length;})
+	  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+	  
+  // Transition the nodes size and color  
+  nodeUpdate.select("path")
+	  .attr("d", d3.svg.symbol()
+		.size(function(d) { return d.qSize*100; })
+		.type(function(d) { return d.location ? "square" : "circle";}))
+	  .attr("x", function(d) { return 0 - d.qSize; })
+	  .attr("y", function(d) { return 0 - d.qSize/2; })
+	  .style("stroke", function(d) {return d._children ? d.location ? "firebrick" : "steelblue" : "black";})
+	  .style("stroke-width", function(d) {return d._children ? 3.5 : .5;})
+	  .style("fill", color);
+
+  // Transition exiting nodes to the parent's new position.
+  var nodeExit = node.exit().transition()
+	  .duration(duration)
+	  .attr("transform", function(d) {mouseover(d); return source != root ? "translate(" + source.y + "," + source.x + ")" : d.parent ? "translate(" + d.parent.y + "," + d.parent.x + ")" : "translate(" + source.y + "," + source.x + ")"; });
+
+  nodeExit.select("path")
+	  .attr("d", d3.svg.symbol()
+		.size(function(d) { return 0; })
+		.type(function(d) { return d.location ? "square" : "circle";}))
+	  .attr("x", function(d) { return 0 - d.qSize; })
+	  .attr("y", function(d) { return 0 - d.qSize/2; });
+//	  .remove();
+
+  // Update the links…
+  link = svg.selectAll("path.link")
+	  .data(links, function(d) { return d.target.id; });
+
+  // Enter any new links at the parent's previous position.
+  link.enter().insert("path", "g")
+	  .attr("class", "link")	
+	  .style("stroke-width", function(d) { return Math.log(1 + d.target.size) })
+	  .attr("fill", "none")
+	  .style("stroke", "#000")
+	  .attr("d", function(d) {
+		source != root ? o = {x: source.x0, y: source.y0} : d.parent ? o = {x: d.source.parent.x0, y: d.source.parent.y0} : o = {x: d.source.x, y: d.source.y};
+		return diagonal({source: o, target: o});
+	  });
+	  
+  // Transition links to their new position.
+  link.transition()
+	  .duration(duration)	
+	  .style("stroke-width", function(d) { return Math.log(1 + d.target.size) })
+	  .attr("d", diagonal);
+	
+  // Transition exiting nodes to the parent's new position.
+  link.exit().transition()
+	  .duration(duration)
+	  .attr("d", function(d) {
+		source != root ? o = {x: source.x, y: source.y} : d.parent ? o = {x: d.source.parent.x, y: d.source.parent.y} : o = {x: d.source.x0, y: d.source.y0};
+		return diagonal({source: o, target: o});
+	  })
+	  .remove();
+  
+  // Stash the old positions for transition.
+  nodes.forEach(function(d) {
+    d.x0 = d.x;
+    d.y0 = d.y;
+  });
+}
+
+// Color state nodes orange, and actions blue.
+function color(d) {
+	return d.location ? colorScaleBlue(d.qSize) : colorScaleRed(d.qSize);
+ // return d._children && d.name.indexOf("A") !== -1 ? "#1b4768" : d.name.indexOf("A") !== -1 ? "#3182bd" : d._children && d.name.indexOf("S") !== -1 ? "#8b411c" : d.name.indexOf("S") !== -1 ? "#fd8d3c" : "#c6dbef";
+}
+
+// Returns the sum of sizes under the parent node.
+function sumNodes(nodeF) {
+	var sumSize = nodeF.qSize;
+	recurse(nodeF);
+	
+	function recurse(nodeF) {
+		if (nodeF._children) sumSize = nodeF._children.reduce(function(p, v) { return p + recurse(v); }, 0);
+		return sumSize;
+	}
+	
+	return sumSize;
+}
+
+// Toggle children on click.
+function click(d) {
+  if(d.parent) {
+	  if (d.children) {
+		d._children = d.children;
+		d.children = null;
+	  } else {
+		d.children = d._children;
+		d._children = null;
+	  }
+	  update(d);
+  }
+}
+
+// TODO: Highlight all parent nodes
+function mouseover(d) {
+  updateText(getToolTip(d));// + -1*(d.q + c*Math.sqrt(Math.log(d.parent.size)/d.size)));
+  
+	recreateState(d);
+	updateGraph();
+	
+ /*d3.select(this).select("circle").transition()
+	.duration(duration)
+	.style("fill", "#ffffff");
+  
+  function findPath(d) {
+	if(d.parent) {
+		d3.select(this).select("circle").transition()
+			.duration(duration)
+			.style("fill", "#db001b");
+			
+		findPath(d.parent);
+	}
+  }
+  
+  findPath(d);*/
+}
+
+function getToolTip(d) {
+  var nq = 'n=' + d.size + ', q=' + d.q;
+ /* if (d.state) {
+	return (nq + '<p></p>burning:[' + d.state.burning + ']<p></p>fuel:[' + d.state.fuel + ']');
+  }
+  if(d.location){
+	return (nq + '<p></p>Recommended location: [' + d.location +']<p></p>--');
+  }
+  else*/
+	return (nq);// + '<p></p>--<p></p>--');
+}
+
+function updateText(text) {
+	document.getElementById('htmlText').innerHTML = text;
+}
+
+function saveSVG(type) {
+	show_svg_code(type);
+	submit_download_form(type);
+}
+
+function show_svg_code(type)
+{
+	// Get the d3js SVG element
+	var tmp  = document.getElementById(type);
+	var svg = tmp.getElementsByTagName("svg")[0];
+
+	// Extract the data as SVG text string
+	var svg_xml = (new XMLSerializer).serializeToString(svg);
+
+	//Optional: prettify the XML with proper indentations
+	svg_xml = vkbeautify.xml(svg_xml);
+
+	// Set the content of the <pre> element with the XML
+	$("#svg_code").text(svg_xml);
+
+	//Optional: Use Google-Code-Prettifier to add colors.
+	prettyPrint();
+}
+
+function submit_download_form(type)
+{
+	// Get the d3js SVG element
+	var tmp = document.getElementById(type);
+	var svg = tmp.getElementsByTagName("svg")[0];
+	// Extract the data as SVG text string
+	var svg_xml = (new XMLSerializer).serializeToString(svg);
+
+	// Submit the <FORM> to the server.
+	// The result will be an attachment file to download.
+	var form = document.getElementById("svgform");
+	form['output_format'].value = 'svg';
+	form['data'].value = svg_xml ;
+	form.submit();
+}
+
+</script>
