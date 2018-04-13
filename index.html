@@ -167,7 +167,22 @@
 
          <h3>Submitted papers/working papers: </h3>
     <ol>
+      <!-- <li>
+        <strong>Prediction of readmissions in surgical patients.</strong> <br>
+        Gabel, E., Mahajan, A., <b>Mi&#353;i&#263;, V. V.</b>, and Rajaram, R. (2018)<br>
+        Submitted. <br> [<a href="javascript:toggleDiv('readm-abs');" >Abstract</a>]</li>
+         <div id="readm-abs" class="vvmisic_body" style="display:none;">
+  <p><b>Abstract:</b></p> 
+  <p> <b>Objective</b>: Develop a model for predicting preventable and unplanned readmissions in surgical patients with high accuracy using demographic and surgical data.</p>
 
+<p><b>Background</b>: Readmissions are costly. Although the prediction of readmissions has been studied in non-surgical patients, it has received relatively little attention in surgical patient populations. In addition, while most prior research speaks to the predictive accuracy that is attainable in different patient populations and using different types of data, there has been less attention devoted to quantifying the operational benefit of such predictive models. </p>
+
+<p><b>Methods</b>: Using a cohort of surgical patients admitted between 2013 and 2016 at the UCLA Ronald Reagan Medical Center, we evaluate the out-of-sample accuracy of different machine learning models for predicting unplanned and preventable readmissions. We define an unplanned readmission as one that enters the hospital through the emergency room, while a preventable readmission is one that has at least one DRG code and does not involve any time in the ICU at readmission. We also consider operational metrics that quantify the value of our models in making post-discharge monitoring and intervention decisions. </p>
+
+<p><b>Results</b>: Our most accurate models achieve out-of-sample area-under-the-curve (AUC) values in the 0.8 - 0.9 range, indicating excellent predictive accuracy. This accuracy is maintained when the models are used to make predictions shortly after surgery, indicating the potential of our model to inform interventions before discharge. General surgical and demographic information and lab data (e.g., blood glucose) have the most predictive value, with medication data and team data having minimal contribution to the predictive accuracy of our models. Our models translate to meaningful monitoring decisions: targeting the highest risk patients according to our models leads to correctly anticipating up to ten times as many readmissions as a naive selection method that targets patients at random and up to three times as many readmissions as a state-of-the-art risk prediction model.</p>
+
+<p><b>Conclusions</b>: Using general surgical and lab data that is available prior to discharge, one can obtain highly accurate models for predicting a large class of unplanned and actionable readmissions.</p></div>
+ -->
       <li> 
         <strong>Exact first-choice product line optimization.</strong> <br>
         Bertsimas, D., and <b>Mi&#353;i&#263;, V. V.</b> (2017)<br>
@@ -194,19 +209,20 @@
           </p></div>
 
 
-     <li> <strong>The airlift planning problem.</strong> <br>
-        Bertsimas, D., Chang, A. A., <b>Mi&#353;i&#263;, V. V.</b>, and Mundru, N. (2016) <br>
-        Under second round review (minor revision) in <i>Transportation Science</i>. <br>
-      [<a href="javascript:toggleDiv('transcom-abs');" >Abstract</a>]</li>
-        <div id="transcom-abs" class="vvmisic_body" style="display:none;">
-<p><b>Abstract:</b></p> 
-<p>The United States Transportation Command (USTRANSCOM) is responsible for planning and executing the transportation of United States military personnel and cargo by air, land and sea. The airlift planning problem faced by the air component of USTRANSCOM is to decide how requirements (passengers and cargo) will be assigned to the available aircraft fleet and the sequence of pickups and dropoffs that each aircraft will perform in order to ensure that the requirements are delivered with minimal delay and with maximum utilization of the available aircraft. This problem is of significant interest to USTRANSCOM due to the highly time-sensitive nature of the requirements that are typically designated for delivery by airlift, as well as the very high cost of airlift operations. At the same time, the airlift planning problem is extremely difficult to solve due to the combinatorial nature of the problem and the numerous constraints present in the problem (such as weight restrictions and crew rest requirements). In this paper, we propose an approach for solving the airlift planning problem faced by USTRANSCOM based on modern, large-scale optimization. Our approach relies on solving a large-scale mixed-integer programming model that disentangles the assignment decision (which aircraft will pickup and deliver which requirement) from the sequencing decision (in what order the aircraft will pickup and deliver its assigned requirements), using a combination of heuristics and column generation. Through computational experiments with both a simulated data set and a planning data set provided by USTRANSCOM, we show that our approach leads to high-quality solutions for realistic instances (e.g., 100 aircraft and 100 requirements) within operationally feasible time frames. Compared to a baseline approach that emulates current practice at USTRANSCOM, our approach leads to reductions in total delay and aircraft time of 8 to 12% in simulated data instances and 16 to 40% in USTRANSCOM's planning instances.
-</p></div>
+    
 
     
     </ol>
     <h3> Refereed journal papers: </h3>
     <ol>
+       <li> <strong>The airlift planning problem.</strong> <br>
+        Bertsimas, D., Chang, A. A., <b>Mi&#353;i&#263;, V. V.</b>, and Mundru, N. (2018) <br>
+        Forthcoming in <i>Transportation Science</i>. <br>
+      [<a href="javascript:toggleDiv('transcom-abs');" >Abstract</a>]</li>
+        <div id="transcom-abs" class="vvmisic_body" style="display:none;">
+<p><b>Abstract:</b></p> 
+<p>The United States Transportation Command (USTRANSCOM) is responsible for planning and executing the transportation of United States military personnel and cargo by air, land and sea. The airlift planning problem faced by the air component of USTRANSCOM is to decide how requirements (passengers and cargo) will be assigned to the available aircraft fleet and the sequence of pickups and dropoffs that each aircraft will perform in order to ensure that the requirements are delivered with minimal delay and with maximum utilization of the available aircraft. This problem is of significant interest to USTRANSCOM due to the highly time-sensitive nature of the requirements that are typically designated for delivery by airlift, as well as the very high cost of airlift operations. At the same time, the airlift planning problem is extremely difficult to solve due to the combinatorial nature of the problem and the numerous constraints present in the problem (such as weight restrictions and crew rest requirements). In this paper, we propose an approach for solving the airlift planning problem faced by USTRANSCOM based on modern, large-scale optimization. Our approach relies on solving a large-scale mixed-integer programming model that disentangles the assignment decision (which aircraft will pickup and deliver which requirement) from the sequencing decision (in what order the aircraft will pickup and deliver its assigned requirements), using a combination of heuristics and column generation. Through computational experiments with both a simulated data set and a planning data set provided by USTRANSCOM, we show that our approach leads to high-quality solutions for realistic instances (e.g., 100 aircraft and 100 requirements) within operationally feasible time frames. Compared to a baseline approach that emulates current practice at USTRANSCOM, our approach leads to reductions in total delay and aircraft time of 8 to 12% in simulated data instances and 16 to 40% in USTRANSCOM's planning instances.
+</p></div>
       <li> <strong>A comparison of Monte Carlo tree search and rolling horizon optimization for large scale dynamic resource allocation problems.</strong> <br>
       Bertsimas, D., Griffith, J. D., Gupta, V., Kochenderfer, M. and <b>Mi&#353;i&#263;, V. V.</b> (2017) <br>
       <i>European Journal of Operational Research</i>, 263 (2): 664-678.<br>
@@ -319,9 +335,16 @@
 
     <h3> Invited talks: </h3>
     <ol>
+      <li><strong>Exact first-choice product line optimization</strong><br>
+        <ul>
+          <li>2018 INFORMS Annual Conference, Phoenix, AZ, (scheduled).</li>
+          <li>2017 INFORMS Annual Conference, Houston, TX, October 22-25, 2017.</li>
+        </ul>
       <li><strong>Optimization of Tree Ensembles</strong> <br>
         <ul>
-          <li>2017 INFORMS Annual Conference, Houston, TX (scheduled). </li>
+          <li>2018 INFORMS Annual Conference, Phoenix, AZ, (scheduled).</li>
+          <li>Duke University, Fuqua School of Business, Decision Sciences Seminar, March 14, 2018. </li>
+          <li>2017 INFORMS Annual Conference, Houston, TX, October 22-25, 2017. </li>
           <li>2017 MSOM Conference, Chapel Hill, NC, June 19-21, 2017. </li>
           <li>INSEAD, Decision Sciences and Technology and Operations Management Seminar, June 7, 2017.</li>
           <li>2017 Computational Management Science Conference, Bergamo, Italy, May 30 - June 2, 2017.</li>
@@ -459,10 +482,9 @@
             <font size=4>
               <h3>Instructor:</h3>
               <ol>
+                <li> <b>MGMTMSA408 -- Operations Analytics</b> (UCLA Anderson MSBA Core Class), Spring 2018 (1 section)
+                <li> <b>MGMT 402 -- Data and Decisions</b> (UCLA Anderson MBA Core Class), Fall 2017 (3 sections)
                 <li> <b>MGMT 402 -- Data and Decisions</b> (UCLA Anderson FEMBA Core Class), Fall 2016 (2 sections)
-                    <ul>
-                      <li>Overall evaluations: <b>4.50/5.0</b>, <b>4.61/5.0</b> </li>
-                    </ul>
                 </li>
               </ol>
 
