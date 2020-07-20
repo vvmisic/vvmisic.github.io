@@ -31,6 +31,10 @@
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async
+            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -173,6 +177,12 @@
 
          <h3>Submitted papers/working papers: </h3>
     <ol>
+      <li><strong>Column-Randomized Linear Programs: Performance Guarantees and Applications.</strong><br>
+        Chen, Y.-C., and <b>Mi&#353;i&#263;, V. V.</b> (2020)<br>
+        Submitted. <br> [<a href="javascript:toggleDiv('crlp-abs');">Abstract</a>] </li>
+        <div id="crlp-abs" class = "vvmisic_body" style ="display:none;">
+          <p><b>Abstract:</b></p>
+          <p>We propose a randomized method for solving linear programs with a large number of columns but a relatively small number of constraints. Since enumerating all the columns is usually unrealistic, such linear programs are commonly solved by column generation, which is often still computationally challenging due to the intractability of the subproblem in many applications. Instead of iteratively introducing one column at a time as in column generation, our proposed method involves sampling a collection of columns according to a user-specified randomization scheme and solving the linear program consisting of the sampled columns. While similar methods for solving large-scale linear programs by sampling columns (or, equivalently, sampling constraints in the dual) have been proposed in the literature, in this paper we derive an upper bound on the optimality gap that holds with high probability and converges with rate \(1 / \sqrt{K}\), where \(K\) is the number of sampled columns, to the value of a linear program related to the sampling distribution. To the best of our knowledge, this is the first paper addressing the convergence of the optimality gap for sampling columns/constraints in generic linear programs without additional assumptions on the problem structure and sampling distribution. We further apply the proposed method to various applications, such as linear programs with totally unimodular constraints, Markov decision processes, covering problems and packing problems, and derive problem-specific performance guarantees. We also generalize the method to the case that the sampled columns may not be statistically independent. Finally, we numerically demonstrate the effectiveness of the proposed method in the cutting-stock problem and in nonparametric choice model estimation. </p></div>
       <li><strong>A Framework for Evaluating Healthcare Machine Learning Models: Application and Analysis Using Hospital Readmission.</strong><br>
         <b>Mi&#353;i&#263;, V. V.</b>, Rajaram, K. and Gabel, E. (2020)<br>
         Submitted.<br> [<a href="javascript:toggleDiv('readm-financial-abs');">Abstract</a>] </li>
