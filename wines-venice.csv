@@ -1,0 +1,58 @@
+Wine,Color,Location,Retail.Price,Rest.Price,Red,Gjelina,SaltAir
+"Hayman & Hill Cabernet Sauvignon Reserve Selection, Napa Valley, 2010",Red,Centanni,13 ,36 ,1,0,0
+"Candoni Merlot, Delle Venezie, Italy, 2011",Red,Centanni,10 ,32 ,1,0,0
+"Rodney Strong Pinot Noir, Russian River Valley, 2011",Red,Centanni,18 ,48 ,1,0,0
+"Castello di Querceto Chianti Classico, Tuscany, Italy, 2011",Red,Centanni,12 ,40 ,1,0,0
+"Trapiche Malbec, Mendoza, Argentina, 2010",Red,Centanni,10 ,36 ,1,0,0
+"Carletto Montepulciano D'Abruzzo, Italy, 2012",Red,Centanni,11 ,40 ,1,0,0
+"Ferrari-Carano Cabernet Sauvignon, Alexander Valley, 2011",Red,Centanni,27 ,48 ,1,0,0
+"Ca' Bianca Barbera d'Asti, Piedmont, Italy, 2010",Red,Centanni,18 ,68 ,1,0,0
+"Tormaresca Torcicoda Primitivo, Puglia, Italy 2011",Red,Centanni,18 ,49 ,1,0,0
+"Ca' Bianca Barolo, Piedmont, Italy, 2008",Red,Centanni,40 ,75 ,1,0,0
+"Borgo Conventi Pinot Grigio, Italy, 2011",White,Centanni,14 ,36 ,0,0,0
+"Vina Haras de Pirque Equus Sauvignon Blanc, Maipo Valley, Chile, 2011",White,Centanni,12 ,36 ,0,0,0
+"Cantina Vignaioli Elvio Pertinace Arneis, Piedmont, Italy, 2010",White,Centanni,17 ,44 ,0,0,0
+"14 Hands Chardonnay, Washington, 2011",White,Centanni,10 ,32 ,0,0,0
+"Sella & Mosca Vermentino, Sardinia, Italy, 2011",White,Centanni,11 ,40 ,0,0,0
+"Ferrari-Carano Fume Blanc, Sonoma, 2012",White,Centanni,13 ,35 ,0,0,0
+"Marchesi Antinori Tenuta Guado al Tasso Vermentino, Tuscany, Italy, 2011",White,Centanni,20 ,48 ,0,0,0
+"Feudi di San Gregorio Greco di Tufo, Campania, Italy, 2011",White,Centanni,19 ,46 ,0,0,0
+"Burg Ravensburg Pinot Noir, Baden Germany, 2011",Red,Gjelina,27 ,60 ,1,1,0
+"Domaine Georges Vernay Syrah, Collines Rhodaniennes, France, 2012",Red,Gjelina,20 ,54 ,1,1,0
+"Antoine Sanzay Cabernet Franc, Saumur Champigny, France, 2012",Red,Gjelina,25 ,58 ,1,1,0
+"Marcarini Ciabot Camerano Barbera d'Alba, Piedmont, Italy, 2011",Red,Gjelina,19 ,58 ,1,1,0
+"Camerano Barolo Terlo Vineyard, Italy, 2008",Red,Gjelina,55 ,95 ,1,1,0
+"Calabretta Etna Rosso, Sicily, Italy, 2001",Red,Gjelina,30 ,68 ,1,1,0
+"Antico Borgo di Sugame Chianti Classico, Tuscany, Italy, 2010",Red,Gjelina,30 ,54 ,1,1,0
+"Chateau du Cedre Malbec, Cahors, France, 2010",Red,Gjelina,22 ,57 ,1,1,0
+"Gilbert Cellars Left Bank Red, Wahluke Slope, Washington, 2011",Red,Gjelina,20 ,57 ,1,1,0
+"Domaine du Salvard Sauvignon Blanc, Cheverny, France, 2012",White,Gjelina,15 ,57 ,0,1,0
+"Vio Giobatta Aimone Vermentino, Liguria, Italy, 2011",White,Gjelina,23 ,45 ,0,1,0
+"Gut Hermannsberg Pinot Blanc, Germany, 2011",White,Gjelina,20 ,53 ,0,1,0
+"Weingut Josef Hogl Riesling Weingarten, Wachau, Austria, 2012",White,Gjelina,21 ,62 ,0,1,0
+"Domaine Patrice et Michele Rion Chardonnay, Burgundy, France, 2010",White,Gjelina,31 ,58 ,0,1,0
+"Bellanotte Pinot Grigio Ramato, Venezia Giulia, Italy, 2010",White,Gjelina,20 ,57 ,0,1,0
+"Kabaj Rebula, Goriska Brda, Slovenia, 2010",White,Gjelina,22 ,49 ,0,1,0
+"Haut Kerpen Riesling Kabinett, Mosel, Germany, 2012",White,Gjelina,19 ,49 ,0,1,0
+"Copain Tous Ensemble Pinot Noir, Anderson Valley, 2010",Red,Salt Air,30 ,58 ,1,0,1
+"Duas Pedras Syrah & Viognier, Portugal, 2011",Red,Salt Air,12 ,38 ,1,0,1
+"Capucine Rouge Les Ollieux, Languedoc, France, 2011",Red,Salt Air,15 ,34 ,1,0,1
+"Scala Rosso Classico, Calabria, Italy, 2011",Red,Salt Air,18 ,50 ,1,0,1
+"Tercero Petite Sirah, Santa Ynez Valley, 2009",Red,Salt Air,35 ,54 ,1,0,1
+"Chateau Moulin Haut Villars, Bordeaux, France, 2009",Red,Salt Air,22 ,58 ,1,0,1
+"Celine et Vincent Dureuil Bourgogne Rouge, Burgundy, France, 2010",Red,Salt Air,26 ,72 ,1,0,1
+"Chateau Ollieux Romanis, Corbieres Cuvee Classique, Languedoc, France, 2010",Red,Salt Air,15 ,44 ,1,0,1
+"Lucques Rouge, North Coast, CA, 2010",Red,Salt Air,21 ,48 ,1,0,1
+"Blina Barbera d'Asti, Piedmont, Italy, 2011",Red,Salt Air,14 ,42 ,1,0,1
+"Cultivar Cabernet Sauvignon, Napa Valley, 2011",Red,Salt Air,21 ,46 ,1,0,1
+"Francois Chidaine Sauvignon Blanc, Touraine, France, 2012",White,Salt Air,12 ,38 ,0,0,1
+"Herve Azo Petit Chablis, Burgundy, France, 2012",White,Salt Air,18 ,50 ,0,0,1
+"Brooks Riesling, Willamette Valley, 2010",White,Salt Air,18 ,50 ,0,0,1
+"Berger Gruner Veltliner, Kremstal, Austria, 2011",White,Salt Air,14 ,53 ,0,0,1
+"Domaine Pierre de la Grange Muscadet, Loire, France, 2012",White,Salt Air,15 ,46 ,0,0,1
+"Holus Bolus Roussanne, Santa Barbara, 2011",White,Salt Air,18 ,54 ,0,0,1
+"Le Mont Rouge Sancerre, Loire, France, 2011",White,Salt Air,20 ,46 ,0,0,1
+"Kabaj Ravan Zeleni Sauvignon, Slovenia, 2011",White,Salt Air,25 ,52 ,0,0,1
+"Goisot Bourgogne Aligote, Burgundy, France, 2011",White,Salt Air,12 ,36 ,0,0,1
+"Francois Chidaine Montluis Clos Habert, Loire, France, 2010",White,Salt Air,25 ,56 ,0,0,1
+"Camp Chardonnay, Alexander Valley, 2012",White,Salt Air,17 ,42 ,0,0,1
